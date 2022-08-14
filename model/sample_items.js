@@ -1,6 +1,6 @@
 export const sampleItems = [
   {
-    id: "1",
+    id: "bc4329e9-26c6-40a5-bfe5-8f7c57a69d8c",
     name: "Medicine 1",
     quantity: "2",
     quantityType: "pack",
@@ -8,7 +8,7 @@ export const sampleItems = [
     expired: false,
   },
   {
-    id: "2",
+    id: "ebe4d04a-81a3-4c5b-9402-df414dcbd1e8",
     name: "Medicine 2",
     quantity: "10",
     quantityType: "capsules",
