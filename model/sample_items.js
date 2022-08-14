@@ -5,6 +5,7 @@ export const sampleItems = [
     quantity: "2",
     quantityType: "pack",
     expiryDate: "2022-12-10",
+    expired: false,
   },
   {
     id: "2",
@@ -12,5 +13,6 @@ export const sampleItems = [
     quantity: "10",
     quantityType: "capsules",
     expiryDate: "2022-11-09",
+    expired: false,
   },
 ];

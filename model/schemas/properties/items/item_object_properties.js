@@ -1,7 +1,8 @@
-export const itemObjectSchema = {
+export const itemObjectProperties = {
   id: {
     required: true,
-    type: "uuid",
+    type: "string",
+    format: "uuid",
     info: "item id",
   },
   name: {
@@ -16,7 +17,8 @@ export const itemObjectSchema = {
   },
   category: {
     required: false,
-    type: "uuid",
+    type: "string",
+    format: "uuid",
     info: "category id of the category item belongs to",
   },
   quantity: {
@@ -26,7 +28,8 @@ export const itemObjectSchema = {
   },
   quantityType: {
     required: false,
-    type: ["unit", "pack", "bag", "capsule"],
+    type: "string",
+    enumValues: ["unit", "pack", "bag", "capsule"],
     info: "item quantity's unit type",
   },
   location: {
@@ -35,12 +38,14 @@ export const itemObjectSchema = {
     info: "location where the item is stored",
   },
   locationType: {
-    type: ["isle", "box", "room"],
+    type: "string",
+    enumValues: ["isle", "box", "room"],
     info: "type of location where the item is stored",
   },
   expiryDate: {
     required: false,
-    type: "timestamp",
+    type: "string",
+    format: "timestamp",
     info: "date, and optionally time, when the item expires",
   },
   expiryNotificationEnabled: {
@@ -50,32 +55,37 @@ export const itemObjectSchema = {
   },
   expiryNotificationPriority: {
     required: false,
-    type: ["low", "medium", "high"],
+    type: "string",
+    enumValues: ["low", "medium", "high"],
     info: "priority of notifications before item expires",
   },
   expiryNotificationSchedule: {
     required: false,
-    type: "list<timestamp>",
+    type: "array",
     info: "schedule of notifications before item expires",
   },
   consumedOn: {
     required: false,
-    type: "timestamp",
+    type: "string",
+    format: "timestamp",
     info: "timestamp for when the item was declared consumed by user",
   },
   consumedBeforeOrAfter: {
     required: false,
-    type: ["null", "before", "after"],
+    type: "string",
+    enumValues: ["null", "before", "after"],
     info: "whether the item was consumed before or after it expires, or never",
   },
   discardedOn: {
     required: false,
-    type: "timestamp",
+    type: "string",
+    format: "timestamp",
     info: "timestamp for when the item was declared discarded by user",
   },
   discardedBeforeOrAfter: {
     required: false,
-    type: ["null", "before", "after"],
+    type: "string",
+    enumValues: ["null", "before", "after"],
     info: "whether the item was discarded before or after it expires, or never",
   },
   expired: {
