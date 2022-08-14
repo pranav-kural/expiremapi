@@ -6,14 +6,14 @@ import S from "fluent-json-schema";
 export const getSType = (type) => {
   // available types: https://ajv.js.org/json-schema.html#json-data-type
   const defaultTypes = {
-    array: S.array,
-    bool: S.boolean,
-    enum: S.enum,
-    integer: S.integer,
-    object: S.object,
-    null: S.null,
-    number: S.number,
-    string: S.string,
+    array: S.array(),
+    bool: S.boolean(),
+    enum: S.enum(),
+    integer: S.integer(),
+    object: S.object(),
+    null: S.null(),
+    number: S.number(),
+    string: S.string(),
   };
   const customTypes = {
     uuid: S.string().format("uuid"),
@@ -27,9 +27,6 @@ export const getSType = (type) => {
   return STypes[type];
 };
 
-const itemSchema = S.object()
-  .prop("id", S.string().format(S.FORMATS.UUID).required())
-  .prop("name", S.string().required());
 
 export const userSchema = {
   id: { type: "string" },
