@@ -6,4 +6,4 @@ class AppDataSource {
   };
 }
 
-export default AppDataSource;
+export default new AppDataSource();

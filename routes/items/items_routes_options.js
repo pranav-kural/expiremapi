@@ -1,19 +1,31 @@
-import AppDataSchemas from "../../model/schemas/app_data_schema.js";
+import AppDataSchemas from "../../model/schemas/app_data_schemas.js";
 
-export const getItemOptions = {
-  schema: {
-    params: {
-      type: "object",
-      required: ["id"],
-      properties: {
-        id: {
-          type: "string",
-          format: "uuid",
+class ItemsRouteOptions {
+  _appDataSchemas;
+
+  constructor(dataSchemas) {
+    this._appDataSchemas = dataSchemas ? dataSchemas : AppDataSchemas;
+  }
+
+  getItemOptions() {
+    return {
+      schema: {
+        params: {
+          type: "object",
+          required: ["id"],
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+          },
+        },
+        response: {
+          200: this._appDataSchemas.getItemObjectSchema(),
         },
       },
-    },
-    response: {
-      200: AppDataSchemas.getItemObjectSchema(),
-    },
-  },
-};
+    };
+  }
+}
+
+export default new ItemsRouteOptions();

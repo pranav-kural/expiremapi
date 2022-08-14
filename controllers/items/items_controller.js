@@ -1,7 +1,17 @@
 import AppDataSource from "../../model/app_data_source.js";
 
-const appDataSource = new AppDataSource().getDataSource();
+class ItemsController {
+  _appDataSource;
 
-export const getItem = (id) => {
-  return appDataSource.find((el) => el.id === id);
-};
+  constructor(dataSource) {
+    this._appDataSource = dataSource
+      ? dataSource
+      : AppDataSource.getDataSource();
+  }
+
+  getItemById(id) {
+    return this._appDataSource.find((el) => el.id === id);
+  }
+}
+
+export default new ItemsController();

@@ -1,8 +1,12 @@
-import { getItem } from "../../controllers/items/items_controller.js";
-import { getItemOptions } from "./items_routes_options.js";
+import ItemsController from "../../controllers/items/items_controller.js";
+import ItemsRouteOptions from "./items_routes_options.js";
 
 export async function primaryRoutes(fastify, options) {
-  fastify.get("/items/item/:id", getItemOptions, async (request, reply) => {
-    reply.send({ ...getItem(req.params.id) });
-  });
+  fastify.get(
+    "/items/item/:id",
+    ItemsRouteOptions.getItemOptions(),
+    async (request, reply) => {
+      reply.send({ ...ItemsController.getItemById(request.params.id) });
+    }
+  );
 }
