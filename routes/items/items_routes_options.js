@@ -1,4 +1,4 @@
-import { itemObjectSchema } from "../../model/schemas/app_data_schema.js";
+import AppDataSchemas from "../../model/schemas/app_data_schema.js";
 
 export const getItemOptions = {
   schema: {
@@ -13,7 +13,7 @@ export const getItemOptions = {
       },
     },
     response: {
-      200: itemObjectSchema,
+      200: AppDataSchemas.getItemObjectSchema(),
     },
   },
 };

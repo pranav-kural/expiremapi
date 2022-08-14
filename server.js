@@ -18,7 +18,7 @@ fastify.register(fastifySwagger, {
   routePrefix: "/docs",
   swagger: {
     info: {
-      title: "expirem-api",
+      title: "ExpiRem API",
       description: "ExpiRem API - Expiry Reminder",
       version: "1.0.1",
     },
