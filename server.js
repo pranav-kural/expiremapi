@@ -1,3 +1,4 @@
+import fastifySwagger from "@fastify/swagger";
 import Fastify from "fastify";
 import { defaultRoutes } from "./routes/default/default_routes.js";
 import { primaryRoutes } from "./routes/items/items_routes.js";
@@ -9,6 +10,18 @@ const fastify = Fastify({
       validateFormats: true,
     },
     // plugins: [ajvFormats],
+  },
+});
+
+fastify.register(fastifySwagger, {
+  exposeRoute: true,
+  routePrefix: "/docs",
+  swagger: {
+    info: {
+      title: "expirem-api",
+      description: "ExpiRem API - Expiry Reminder",
+      version: "1.0.1",
+    },
   },
 });
 
