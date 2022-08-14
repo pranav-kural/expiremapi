@@ -1,4 +1,3 @@
-import S from "fluent-json-schema";
 import { itemObjectProperties } from "./properties/items/item_object_properties.js";
 import { getSchemaProperties } from "./utils/schema_generator.js";
 

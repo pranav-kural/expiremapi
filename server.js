@@ -1,5 +1,4 @@
 import Fastify from "fastify";
-import ajvFormats from "ajv-formats";
 import { primaryRoutes } from "./routes/items/items_routes.js";
 
 const fastify = Fastify({
@@ -8,7 +7,7 @@ const fastify = Fastify({
     customOptions: {
       validateFormats: true,
     },
-    plugins: [ajvFormats],
+    // plugins: [ajvFormats],
   },
 });
 
