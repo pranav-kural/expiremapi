@@ -1,4 +1,5 @@
 import Fastify from "fastify";
+import { defaultRoutes } from "./routes/default/default_routes.js";
 import { primaryRoutes } from "./routes/items/items_routes.js";
 
 const fastify = Fastify({
@@ -11,6 +12,7 @@ const fastify = Fastify({
   },
 });
 
+fastify.register(defaultRoutes);
 fastify.register(primaryRoutes);
 
 const startApp = async (fastify, portNumber) => {
