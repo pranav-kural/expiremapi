@@ -1,37 +1,9 @@
-import S from "fluent-json-schema";
+import { itemObjectSchema } from "../../model/schemas/app_data_schema.js";
 
-const itemSchema = S.object()
-  .prop("id", S.string().format(S.FORMATS.UUID).required())
-  .prop("name", S.string().required());
-
-const responseSchema = S.object()
-  .title("Get All Items Schema")
-  .prop("items", S.array().items(itemSchema).required());
-
-export const getAllItemsOptions = {
+export const getItemOptions = {
   schema: {
     response: {
-      200: responseSchema.valueOf(),
+      200: itemObjectSchema,
     },
   },
 };
-
-// export const getAllItemsOptions = {
-//   schema: {
-//     response: {
-//       200: {
-//         type: "object",
-//         required: ["items"],
-//         properties: {
-//           items: {
-//             type: "array",
-//             format: "date",
-//           },
-//           message: { type: "string" },
-//         },
-//       },
-//     },
-//   },
-// };
-
-console.log(getAllItemsOptions.schema.response);

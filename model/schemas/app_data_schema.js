@@ -1,32 +1,11 @@
 import S from "fluent-json-schema";
+import { itemObjectProperties } from "./properties/items/item_object_properties.js";
+import { getSchemaProperties } from "./utils/schema_generator.js";
 
-// allow nullable types
-// https://ajv.js.org/json-schema.html#nullable
-
-export const getSType = (type) => {
-  // available types: https://ajv.js.org/json-schema.html#json-data-type
-  const defaultTypes = {
-    array: S.array(),
-    bool: S.boolean(),
-    enum: S.enum(),
-    integer: S.integer(),
-    object: S.object(),
-    null: S.null(),
-    number: S.number(),
-    string: S.string(),
-  };
-  const customTypes = {
-    uuid: S.string().format("uuid"),
-    email: S.string().format("email"),
-    timestamp: S.string().format("date-time"),
-  };
-  const STypes = {
-    ...defaultTypes,
-    ...customTypes,
-  };
-  return STypes[type];
+export const itemObjectSchema = {
+  type: "object",
+  ...getSchemaProperties(itemObjectProperties),
 };
-
 
 export const userSchema = {
   id: { type: "string" },
