@@ -32,18 +32,20 @@ const itemRoutes = async (fastify, options, done) => {
   }
 
   async function addItemHandler(req, res) {
-    const { itemAdded, error } = ItemsController.addItem(req.body.item);
-    if (itemAdded && !error) {
+    try {
+      const { itemAdded, error } = ItemsController.addItem(req.body.item);
+      if (itemAdded && !error) {
+        res.send({
+          status: "item added",
+          item: itemAdded,
+        });
+      } else {
+        throw error;
+      }
+    } catch (err) {
       res.send({
-        status: "item added",
-        item: itemAdded,
-      });
-    } else {
-      console.log("ite: ", itemAdded);
-      console.log("err: ", error);
-      res.send({
-        error,
-        status: error,
+        status: "failed to add item",
+        error: err.message,
       });
     }
   }

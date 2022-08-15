@@ -53,10 +53,11 @@ class ItemsRouteOptions {
         response: {
           200: {
             type: "object",
-            required: ["status"],
+            required: ["status", "item"],
             properties: {
               item: this._appDataSchemas.getItemObjectSchema(),
               status: { type: "string" },
+              itemAdded: { type: "object" },
             },
           },
         },

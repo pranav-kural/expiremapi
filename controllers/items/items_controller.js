@@ -17,16 +17,14 @@ class ItemsController {
   }
 
   addItem(item) {
-    let error, itemAdded;
     try {
       const validItemObject = validateItemObject(item);
       if (validItemObject) this._appDataSource.items.push(item);
       else throw Error("item object validation failed");
-      itemAdded = item;
-    } catch (err) {
-      error = err;
+      return { itemAdded: item };
+    } catch (error) {
+      return { error };
     }
-    return { itemAdded, error };
   }
 }
 
