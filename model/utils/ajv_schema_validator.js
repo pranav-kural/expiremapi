@@ -1,7 +1,7 @@
 import Ajv from "ajv";
 import ajvFormats from "ajv-formats";
 
-const customAjv = new Ajv({
+const ajvSchemaValidator = new Ajv({
   coerceTypes: true, // change data type of data to match type keyword
   useDefaults: true, // replace missing properties and items with the values from corresponding default keyword
   removeAdditional: true, // remove additional properties
@@ -9,6 +9,6 @@ const customAjv = new Ajv({
   allErrors: false,
 });
 
-ajvFormats(customAjv);
+ajvFormats(ajvSchemaValidator);
 
-export { customAjv };
+export default ajvSchemaValidator;
