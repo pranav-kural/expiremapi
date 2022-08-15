@@ -6,6 +6,12 @@ A simple yet powerful API to create intuitive and performant applications which 
 
 Currently in development.
 
+## Development
+
+### Endpoints / Routes Implementation
+
+[Routes implementation status](https://doc.clickup.com/36731621/d/130yq5-1122/expi-rem)
+
 ## Available Scripts
 
 In the project directory, you can run:
