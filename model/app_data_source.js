@@ -1,9 +1,9 @@
 import { sampleItems } from "./sample_items.js";
 
 class AppDataSource {
-  getDataSource = () => {
-    return sampleItems;
-  };
+  getDataSource = () => ({
+    items: sampleItems,
+  });
 }
 
 export default new AppDataSource();

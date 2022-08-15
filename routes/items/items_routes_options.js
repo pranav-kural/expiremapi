@@ -2,13 +2,28 @@ import AppDataSchemas from "../../model/schemas/app_data_schemas.js";
 
 class ItemsRouteOptions {
   _appDataSchemas;
+  getAllItemsOptions;
+  getItemOptions;
+  getAddItemOptions;
 
   constructor(dataSchemas) {
     this._appDataSchemas = dataSchemas ? dataSchemas : AppDataSchemas;
+    this.initializeOptions();
   }
 
-  getItemOptions() {
-    return {
+  initializeOptions() {
+    this.getAllItemsOptions = {
+      schema: {
+        response: {
+          200: {
+            type: "array",
+            items: this._appDataSchemas.getItemObjectSchema(),
+          },
+        },
+      },
+    };
+
+    this.getItemOptions = {
       schema: {
         params: {
           type: "object",
@@ -22,6 +37,28 @@ class ItemsRouteOptions {
         },
         response: {
           200: this._appDataSchemas.getItemObjectSchema(),
+        },
+      },
+    };
+
+    this.getAddItemOptions = {
+      schema: {
+        body: {
+          type: "object",
+          required: ["item"],
+          properties: {
+            item: this._appDataSchemas.getItemObjectSchema(),
+          },
+        },
+        response: {
+          200: {
+            type: "object",
+            required: ["status"],
+            properties: {
+              item: this._appDataSchemas.getItemObjectSchema(),
+              status: { type: "string" },
+            },
+          },
         },
       },
     };
