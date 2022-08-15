@@ -45,7 +45,7 @@ export const itemObjectProperties = {
   expiryDate: {
     required: false,
     type: "string",
-    format: "timestamp",
+    format: "date-time",
     info: "date, and optionally time, when the item expires",
   },
   expiryNotificationEnabled: {
@@ -67,8 +67,8 @@ export const itemObjectProperties = {
   consumedOn: {
     required: false,
     type: "string",
-    format: "timestamp",
-    info: "timestamp for when the item was declared consumed by user",
+    format: "date-time",
+    info: "date-time for when the item was declared consumed by user",
   },
   consumedBeforeOrAfter: {
     required: false,
@@ -79,8 +79,8 @@ export const itemObjectProperties = {
   discardedOn: {
     required: false,
     type: "string",
-    format: "timestamp",
-    info: "timestamp for when the item was declared discarded by user",
+    format: "date-time",
+    info: "date-time for when the item was declared discarded by user",
   },
   discardedBeforeOrAfter: {
     required: false,
@@ -89,7 +89,7 @@ export const itemObjectProperties = {
     info: "whether the item was discarded before or after it expires, or never",
   },
   expired: {
-    required: true,
+    required: false,
     type: "boolean",
     info: "whether the item is expired",
   },
