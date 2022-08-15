@@ -1,7 +1,7 @@
 import fastifySwagger from "@fastify/swagger";
 import Fastify from "fastify";
 import { defaultRoutes } from "./routes/default/default_routes.js";
-import { primaryRoutes } from "./routes/items/items_routes.js";
+import { itemsRoutes } from "./routes/items/items_routes.js";
 
 const fastify = Fastify({
   logger: true,
@@ -26,7 +26,7 @@ fastify.register(fastifySwagger, {
 });
 
 fastify.register(defaultRoutes);
-fastify.register(primaryRoutes);
+fastify.register(itemsRoutes, { prefix: "items" });
 
 const startApp = async (fastify, portNumber) => {
   try {
