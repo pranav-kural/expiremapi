@@ -47,7 +47,7 @@ class ItemsRouteOptions {
           type: "object",
           required: ["item"],
           properties: {
-            item: this._appDataSchemas.getItemObjectSchema(),
+            item: this._appDataSchemas.getAddItemObjectSchema(),
           },
         },
         response: {
@@ -61,6 +61,16 @@ class ItemsRouteOptions {
             },
           },
         },
+      },
+      preValidation: (req, reply, done) => {
+        if (req.body.item && req.body.item.hasOwnProperty("id")) {
+          reply.send(
+            new Error(
+              "item object must not have id property. item ID will be auto-generated"
+            )
+          );
+        }
+        done();
       },
     };
   }
