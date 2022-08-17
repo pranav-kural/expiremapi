@@ -26,6 +26,14 @@ export const itemRoutes = async (fastify, options, done) => {
     res.send({ ...ItemsController.getItemById(req.params.id) });
   }
 
+  /**
+   * Handles the request to add a new item
+   * Returns a response containing "itemAddedSuccessfully" set to true only if
+   * item is added successfully, else sets it to false. Also returns status message
+   * and an error message if operation fails.
+   * @param {*} req request object
+   * @param {*} res response method
+   */
   async function addItemHandler(req, res) {
     /* 
      tries to add an item, if fails in adding item due to validation etc.
@@ -39,12 +47,14 @@ export const itemRoutes = async (fastify, options, done) => {
       const { itemAdded, error } = ItemsController.addItem(req.body.item);
       if (itemAdded && !error) {
         res.send({
-          status: "item added",
+          itemAddedSuccessfully: true,
+          status: "item added successfully",
           item: itemAdded,
         });
       } else {
         res.statusCode = 500;
         res.send({
+          itemAddedSuccessfully: false,
           status: "failed to add item",
           error,
         });
@@ -52,6 +62,7 @@ export const itemRoutes = async (fastify, options, done) => {
     } catch (err) {
       res.statusCode = 500;
       res.send({
+        itemAddedSuccessfully: false,
         status: "failed to add item",
         error: err.message,
       });
