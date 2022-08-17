@@ -1,7 +1,5 @@
 import AppDataSchemas from "../schemas/app_data_schemas.js";
-import { itemObjectProperties } from "../schemas/properties/item/item_object_properties.js";
 import ajvSchemaValidator from "./ajv_schema_validator.js";
-import { getSchemaProperties } from "./schema_generator.js";
 
 export const validateItemObject = (item) => {
   const itemObjectSchema = AppDataSchemas.getItemObjectSchema();
