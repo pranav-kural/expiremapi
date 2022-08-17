@@ -1,5 +1,5 @@
 import ItemsRouteOptions from "./item_routes_options.js";
-import ItemsController from "../../../controllers/items/items_controller.js";
+import { itemController } from "../../../controllers/items/items_controller.js";
 /**
  * /items/item Routes
  * endpoints:
@@ -23,7 +23,7 @@ export const itemRoutes = async (fastify, options, done) => {
   // );
 
   async function getItemByIdHandler(req, res) {
-    res.send({ ...ItemsController.getItemById(req.params.id) });
+    res.send({ ...itemController.getItemById(req.params.id) });
   }
 
   /**
@@ -44,7 +44,7 @@ export const itemRoutes = async (fastify, options, done) => {
      normal flow of application logic (hence some redundant code) 
     */
     try {
-      const { itemAdded, error } = ItemsController.addItem(req.body.item);
+      const { itemAdded, error } = itemController.addItem(req.body.item);
       if (itemAdded && !error) {
         res.send({
           itemAddedSuccessfully: true,

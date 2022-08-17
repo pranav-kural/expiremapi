@@ -1,7 +1,7 @@
 import { sampleItems } from "./sample_items.js";
 
 class AppDataSource {
-  getDataSource = () => ({
+  getItemsDataSource = () => ({
     items: sampleItems,
   });
 }
