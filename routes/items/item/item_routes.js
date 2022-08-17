@@ -16,11 +16,7 @@ export const itemRoutes = async (fastify, options, done) => {
   // add a new item
   fastify.post("/item", ItemsRouteOptions.getAddItemOptions, addItemHandler);
 
-  // fastify.delete(
-  //   "/item/:id",
-  //   ItemsRouteOptions.getDeleteItemOptions,
-  //   getItemByIdHandler
-  // );
+  fastify.delete("/item/:id", deleteItemHandler);
 
   async function getItemByIdHandler(req, res) {
     res.send({ ...itemController.getItemById(req.params.id) });
@@ -68,4 +64,6 @@ export const itemRoutes = async (fastify, options, done) => {
       });
     }
   }
+
+  async function deleteItemHandler(req, res) {}
 };

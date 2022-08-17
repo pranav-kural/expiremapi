@@ -1,14 +1,10 @@
-import AppDataSource from "../../model/data/app_data_source.js";
+import itemsDataHandler from "../../model/handlers/items_data_handlers.js";
 import { validateAddItemObject } from "../../model/utils/validate_properties.js";
 import { v4 as uuidv4 } from "uuid";
 
-const itemsDataSource = AppDataSource.getItemsDataSource();
+const getAllItems = () => itemsDataHandler.getAllItems();
 
-const getAllItems = () => itemsDataSource.items;
-
-export const getItemById = (id) => {
-  return itemsDataSource.items.find((el) => el.id === id);
-};
+const getItemById = (id) => itemsDataHandler.getItemById(id);
 
 /**
  * Adds an item to user's items collection
@@ -16,7 +12,7 @@ export const getItemById = (id) => {
  * @param {item object} item item object to be added
  * @returns object containing item object if added successfully, else error
  */
-export const addItem = (item) => {
+const addItem = (item) => {
   try {
     const { validationSuccess, validationErrors } = validateAddItemObject(item);
     if (validationSuccess && !validationErrors) {
@@ -25,7 +21,7 @@ export const addItem = (item) => {
       // add id property to item object
       item = { id: itemId, ...item };
       // add new item
-      itemsDataSource.items.push(item);
+      itemsDataHandler.addItem(item);
       // return added item (including item id)
       return { itemAdded: item };
     } else {
@@ -35,6 +31,22 @@ export const addItem = (item) => {
   } catch (err) {
     throw err;
   }
+};
+
+/**
+ * Deletes an item that belongs to the user
+ * If no item exists with the provided id, returns an error
+ * @param {*} id id of item to be deleted
+ * @returns the item object if deletion successful, else error
+ */
+const deleteItem = (id) => {
+  let itemDeleted;
+
+  itemsDataSource.items;
+
+  return { item };
+
+  return { error };
 };
 
 export const itemsController = {
