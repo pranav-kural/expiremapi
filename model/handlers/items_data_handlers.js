@@ -16,7 +16,10 @@ const getItemById = (id) =>
 const addItem = (item) => {
   try {
     const { validationSuccess, validationErrors } =
-      itemsValidationHandlers.validateAddItemObject(item);
+      itemsValidationHandlers.validateItemObject(item, {
+        propertiesRequired: ["name"],
+        propertiesToExclude: ["id"],
+      });
     if (validationSuccess && !validationErrors) {
       // generate item id
       const itemId = uuidv4();
@@ -47,7 +50,9 @@ const updateItem = (updatedItem) => {
   try {
     // validate item object
     const { validationSuccess, validationErrors } =
-      itemsValidationHandlers.validateItemObject(item);
+      itemsValidationHandlers.validateItemObject(updatedItem, {
+        propertiesRequired: ["id"],
+      });
     // call update item action; returns object containing updated item or error
     return validationSuccess
       ? itemsActionHandler.dispatch(ITEMS_ACTIONS.UPDATE_ITEM, updatedItem)

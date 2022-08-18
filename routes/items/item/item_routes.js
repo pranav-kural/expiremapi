@@ -1,8 +1,5 @@
-import itemsRouteOptions from "./item_routes_options.js";
-import {
-  itemController,
-  itemsController,
-} from "../../../controllers/items/items_controller.js";
+import itemRouteOptions from "./item_routes_options.js";
+import { itemController } from "../../../controllers/items/items_controller.js";
 /**
  * /items/item Routes
  * endpoints:
@@ -11,17 +8,19 @@ import {
  */
 export const itemRoutes = async (fastify, options, done) => {
   // get an item by id
-  fastify.get(
-    "/item/:id",
-    itemsRouteOptions.getItemOptions,
-    getItemByIdHandler
-  );
+  fastify.get("/item/:id", itemRouteOptions.getItemOptions, getItemByIdHandler);
   // add a new item
-  fastify.post("/item", itemsRouteOptions.getAddItemOptions, addItemHandler);
-
+  fastify.post("/item", itemRouteOptions.getAddItemOptions, addItemHandler);
+  // update an existing item
+  fastify.put(
+    "/item",
+    itemRouteOptions.getUpdateItemOptions,
+    updateItemHandler
+  );
+  // delete an existing item
   fastify.delete(
     "/item/:id",
-    itemsRouteOptions.getDeleteItemOptions,
+    itemRouteOptions.getDeleteItemOptions,
     deleteItemHandler
   );
 
@@ -76,6 +75,22 @@ export const itemRoutes = async (fastify, options, done) => {
         status: "failed to add item",
         error: err.message,
       });
+    }
+  }
+
+  async function updateItemHandler(req, res) {
+    try {
+      const { itemUpdated, error } = itemController.updateItem(req.body.item);
+      if (!error) {
+        res.send({
+          item: itemUpdated,
+        });
+      } else {
+        res.statusCode = 400;
+        res.send({ error });
+      }
+    } catch (error) {
+      res.send(error);
     }
   }
 

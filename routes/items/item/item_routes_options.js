@@ -1,5 +1,57 @@
 import AppDataSchemas from "../../../model/schemas/app_data_schemas.js";
 
+const errorMessageSchema = {
+  type: "object",
+  required: ["error"],
+  properties: {
+    error: { type: "string" },
+    statusCode: { type: "number" },
+    message: { type: "string" },
+    schemaPath: { type: "string" },
+    msg: { type: "string" },
+  },
+};
+
+const itemObjectSchema = {
+  type: "object",
+  required: ["item"],
+  properties: {
+    item: AppDataSchemas.getItemObjectSchema(),
+  },
+};
+
+const getItemContainerSchema = ({
+  propertiesRequired = ["id", "name"],
+  propertiesToExclude = [],
+}) => ({
+  type: "object",
+  required: ["item"],
+  properties: {
+    item: {
+      ...AppDataSchemas.getItemObjectSchema(),
+      required: [...propertiesRequired],
+      ...(propertiesToExclude &&
+        propertiesToExclude.length !== 0 && {
+          not: {
+            required: [...propertiesToExclude],
+          },
+        }),
+    },
+  },
+});
+
+// pre-validation to ensure no ID supplied when adding new item
+const addItemPreValidation = (req, reply, done) => {
+  if (req.body.item && req.body.item.hasOwnProperty("id")) {
+    reply.send(
+      new Error(
+        "item object must not have id property. item ID will be auto-generated"
+      )
+    );
+  }
+  done();
+};
+
 const getItemOptions = {
   schema: {
     params: {
@@ -13,26 +65,17 @@ const getItemOptions = {
       },
     },
     response: {
-      200: {
-        type: "object",
-        required: ["item"],
-        properties: {
-          item: AppDataSchemas.getItemObjectSchema(),
-        },
-      },
+      200: itemObjectSchema,
     },
   },
 };
 
 const getAddItemOptions = {
   schema: {
-    body: {
-      type: "object",
-      required: ["item"],
-      properties: {
-        item: AppDataSchemas.getAddItemObjectSchema(),
-      },
-    },
+    body: getItemContainerSchema({
+      propertiesRequired: ["name"],
+      propertiesToExclude: ["id"],
+    }),
     response: {
       200: {
         type: "object",
@@ -45,15 +88,23 @@ const getAddItemOptions = {
       },
     },
   },
-  preValidation: (req, reply, done) => {
-    if (req.body.item && req.body.item.hasOwnProperty("id")) {
-      reply.send(
-        new Error(
-          "item object must not have id property. item ID will be auto-generated"
-        )
-      );
-    }
-    done();
+  preValidation: addItemPreValidation,
+};
+
+console.log(
+  getItemContainerSchema({
+    propertiesRequired: ["id"],
+  }).properties
+);
+const getUpdateItemOptions = {
+  schema: {
+    body: getItemContainerSchema({
+      propertiesRequired: ["id"],
+    }),
+    response: {
+      200: itemObjectSchema,
+      400: errorMessageSchema,
+    },
   },
 };
 
@@ -70,22 +121,8 @@ const getDeleteItemOptions = {
       },
     },
     response: {
-      200: {
-        type: "object",
-        required: ["item"],
-        properties: {
-          item: AppDataSchemas.getItemObjectSchema(),
-        },
-      },
-      400: {
-        type: "object",
-        required: ["error"],
-        properties: {
-          error: {
-            type: "string",
-          },
-        },
-      },
+      200: itemObjectSchema,
+      400: errorMessageSchema,
     },
   },
 };
@@ -93,5 +130,6 @@ const getDeleteItemOptions = {
 export default {
   getItemOptions,
   getAddItemOptions,
+  getUpdateItemOptions,
   getDeleteItemOptions,
 };
