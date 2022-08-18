@@ -1,4 +1,4 @@
-import AppDataSchemas from "../schemas/app_data_schemas.js";
+import AppDataSchemas from "../data/schemas/app_data_schemas.js";
 import ajvSchemaValidator from "../data/validators/ajv_schema_validator.js";
 
 const validateObj = (obj, schema) => {

@@ -1,4 +1,4 @@
-import AppDataSchemas from "../../model/schemas/app_data_schemas.js";
+import AppDataSchemas from "../../model/data/schemas/app_data_schemas.js";
 
 const getAllItemsOptions = {
   schema: {
