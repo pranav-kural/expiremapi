@@ -10,7 +10,7 @@ Currently in development.
 
 ### Endpoints / Routes Implementation
 
-[Routes implementation status](https://doc.clickup.com/36731621/d/130yq5-1122/expi-rem)
+[Routes implementation status](https://doc.clickup.com/36731621/p/h/130yq5-562/e795746e6b4eac7)
 
 ## Available Scripts
 
