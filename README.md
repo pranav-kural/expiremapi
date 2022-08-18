@@ -10,9 +10,10 @@ Currently in development.
 - [Development](#development)
   - [Endpoints / Routes Implementation Status](#endpoints--routes-implementation-status)
   - [Route Implementation Strategy & Pattern](#route-implementation-strategy--pattern)
-    - [Strategy](#strategy)
+    - [Implementation Strategy](#implementation-strategy)
     - [Controller-Data-Action-Response Pattern](#controller-data-action-response-pattern)
     - [Dispatch-Action-Next Pattern](#dispatch-action-next-pattern)
+    - [Endpoint Implementation Workflow](#endpoint-implementation-workflow)
   - [Data Validation Strategy](#data-validation-strategy)
     - [Route Options](#route-options)
     - [Validation Handlers](#validation-handlers)
@@ -28,7 +29,7 @@ Currently in development.
 
 ## Route Implementation Strategy & Pattern
 
-### Strategy
+### Implementation Strategy
 
 Current implementation implements the **RCM (Route Controller Modal)** pattern to implement routes and endpoints.
 
@@ -61,6 +62,22 @@ CDAR pattern helps in achieving:
 Inspired from the code execution pattern commonly used with reducers like Redux, the Dispatch-Action-Next (DAN) pattern has been implemented.
 
 Handlers **dispatch** an **action** from one of the pre-defined _action types_, providing an optional _payload_ containing any data that needs to be passed on, and an optional callback function as the **next** method that the action execution should pass the response to or make the call to after operation execution is completed.
+
+### Endpoint Implementation Workflow
+
+Following is the workflow for implementing new endpoints:
+
+1. Define **schema** for the data object and it's properties OR use an existing one `[/model/schema/properties]`
+2. Define the **Action Types** for the actions that could be taken with that data `[/model/data/actions]`
+3. Define the **action handlers** to handle dispatched actions to be performed on the data, i.e., execute the operation on the database and also handling and returning the response `[/model/handlers/{handler-for}/{handler-for}_action_handlers]`
+4. Define the **validation handlers** required to perform any data validation before the actions are dispatched `[/model/handlers/{handler-for}/{handler-for}_validation_handlers]`
+5. Define the **data handlers** which will handle the request from controller, initiate and handle data validation, and finally dispatch the appropriate action(s) `[/model/handlers/{handler-for}/{handler-for}_data_handlers]`
+6. Define the **Controller** methods which will handle the request from router for specific endpoints, and make to call to appropriate data handler(s) `[/controller/{controller-for}]`
+7. Define the route endpoint in the route file `[/routes/{route-for}_routes]`
+8. Define the route endpoint's route options including schema defintion `[/routes/{route-for}_options]`
+9. Perform testing without any data validation or serialization on routes end
+10. Attach the route options to the route endpoint
+11. Perform endpoint testing
 
 ## Data Validation Strategy
 
