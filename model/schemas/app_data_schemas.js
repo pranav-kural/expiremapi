@@ -6,14 +6,6 @@ class AppDataSchemas {
     type: "object",
     ...getSchemaProperties(itemObjectProperties),
   });
-  getAddItemObjectSchema = () => ({
-    type: "object",
-    ...getSchemaProperties(itemObjectProperties),
-    required: ["name"], // requires only name, not id
-    not: {
-      required: ["id"],
-    },
-  });
 }
 
 export default new AppDataSchemas();
