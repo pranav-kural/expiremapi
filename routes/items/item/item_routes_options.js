@@ -13,7 +13,13 @@ const getItemOptions = {
       },
     },
     response: {
-      200: AppDataSchemas.getItemObjectSchema(),
+      200: {
+        type: "object",
+        required: ["item"],
+        properties: {
+          item: AppDataSchemas.getItemObjectSchema(),
+        },
+      },
     },
   },
 };
@@ -51,7 +57,41 @@ const getAddItemOptions = {
   },
 };
 
+const getDeleteItemOptions = {
+  schema: {
+    params: {
+      type: "object",
+      required: ["id"],
+      properties: {
+        id: {
+          type: "string",
+          format: "uuid",
+        },
+      },
+    },
+    response: {
+      200: {
+        type: "object",
+        required: ["item"],
+        properties: {
+          item: AppDataSchemas.getItemObjectSchema(),
+        },
+      },
+      400: {
+        type: "object",
+        required: ["error"],
+        properties: {
+          error: {
+            type: "string",
+          },
+        },
+      },
+    },
+  },
+};
+
 export default {
   getItemOptions,
   getAddItemOptions,
+  getDeleteItemOptions,
 };
