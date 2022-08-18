@@ -1,7 +1,4 @@
 import itemsDataHandlers from "../../model/handlers/items_data_handlers.js";
-import itemsDataValidators from "./utils/items_data_validators.js";
-
-import { v4 as uuidv4 } from "uuid";
 
 const getAllItems = () => itemsDataHandlers.getAllItems();
 
@@ -13,27 +10,7 @@ const getItemById = (id) => itemsDataHandlers.getItemById(id);
  * @param {item object} item item object to be added
  * @returns object containing item object if added successfully, else error
  */
-const addItem = (item) => {
-  try {
-    const { validationSuccess, validationErrors } =
-      itemsDataValidators.validateAddItemObject(item);
-    if (validationSuccess && !validationErrors) {
-      // generate item id
-      const itemId = uuidv4();
-      // add id property to item object
-      item = { id: itemId, ...item };
-      // add new item
-      itemsDataHandlers.addItem(item);
-      // return added item (including item id)
-      return { itemAdded: item };
-    } else {
-      const error = validationErrors.pop();
-      return { error: `${error.schemaPath} ${error.message}` };
-    }
-  } catch (err) {
-    throw err;
-  }
-};
+const addItem = (item) => itemsDataHandlers.addItem(item);
 
 /**
  * Updates an item that belongs to the user
@@ -43,21 +20,7 @@ const addItem = (item) => {
  */
 const updateItem = (item) => {
   try {
-    // validate item object
-    const { validationSuccess, validationErrors } =
-      itemsDataValidators.validateItemObject(item);
-    if (validationSuccess && !validationErrors) {
-      // attempt to update the item
-      const itemUpdated = itemsDataHandlers.updateItem(item);
-      // return updated item with all properties, else error
-      return itemUpdated
-        ? { itemUpdated }
-        : { error: `Could not find an item with the provided id ${id}` };
-    } else {
-      return {
-        error: `validation failed for the provided item object: ${validationErrors}`,
-      };
-    }
+    return itemsDataHandlers.updateItem(item);
   } catch (err) {
     return { error: err.message };
   }
@@ -71,11 +34,7 @@ const updateItem = (item) => {
  */
 const deleteItem = (id) => {
   try {
-    const itemDeleted = itemsDataHandlers.deleteItem(id);
-
-    return itemDeleted
-      ? { itemDeleted }
-      : { error: `Could not find an item with the provided id ${id}` };
+    return itemsDataHandlers.deleteItem(id);
   } catch (err) {
     return { error: err.message };
   }
