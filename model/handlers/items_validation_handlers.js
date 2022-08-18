@@ -8,11 +8,19 @@ const validateObj = (obj, schema) => {
     : { validationErrors: validateItem.errors.pop() };
 };
 
-const validateItemObject = (item) =>
-  validateObj(item, AppDataSchemas.getItemObjectSchema());
-
-const validateAddItemObject = (item) =>
-  validateObj(item, AppDataSchemas.getAddItemObjectSchema());
+const validateItemObject = (
+  item,
+  { propertiesRequired, propertiesToExclude }
+) =>
+  validateObj(item, {
+    ...AppDataSchemas.getItemObjectSchema(),
+    ...(propertiesRequired && { required: propertiesRequired }),
+    ...(propertiesToExclude && {
+      not: {
+        required: propertiesToExclude,
+      },
+    }),
+  });
 
 const validateItemId = (id) =>
   validateObj(id, {
@@ -22,6 +30,5 @@ const validateItemId = (id) =>
 
 export default {
   validateItemObject,
-  validateAddItemObject,
   validateItemId,
 };
