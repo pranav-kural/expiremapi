@@ -10,7 +10,13 @@ const getItemById = (id) => itemsDataHandlers.getItemById(id);
  * @param {item object} item item object to be added
  * @returns object containing item object if added successfully, else error
  */
-const addItem = (item) => itemsDataHandlers.addItem(item);
+const addItem = (item) => {
+  try {
+    return itemsDataHandlers.addItem(item);
+  } catch (err) {
+    throw err;
+  }
+};
 
 /**
  * Updates an item that belongs to the user
@@ -22,7 +28,7 @@ const updateItem = (item) => {
   try {
     return itemsDataHandlers.updateItem(item);
   } catch (err) {
-    return { error: err.message };
+    throw err;
   }
 };
 
@@ -36,7 +42,7 @@ const deleteItem = (id) => {
   try {
     return itemsDataHandlers.deleteItem(id);
   } catch (err) {
-    return { error: err.message };
+    throw err;
   }
 };
 
