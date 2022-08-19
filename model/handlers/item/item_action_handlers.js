@@ -1,17 +1,23 @@
 // import app's data source
-import AppDataSource from "../data/app_data_source.js";
+import AppDataSource from "../../data/app_data_source.js";
 // get items data source from the app's data source
 const itemsDataSource = AppDataSource.getItemsDataSource();
 
-const getAllItems = () => itemsDataSource.items;
+const _updateItems = (items) => (itemsDataSource.items = [...items]);
 
-const updateItems = (items) => (itemsDataSource.items = [...items]);
+const getItemById = (id, responseHandler) => {
+  const item = itemsDataSource.items.find((el) => el.id === id);
+  responseHandler(
+    item ? { item } : { error: `no item found matching the provided id ${id}` }
+  );
+};
 
-const getItemById = (id) => itemsDataSource.items.find((el) => el.id === id);
+const addItem = (item, responseHandler) => {
+  itemsDataSource.items.push(item);
+  responseHandler({ item }); // if successful, return the item (containing id)
+};
 
-const addItem = (item) => itemsDataSource.items.push(item);
-
-const updateItem = (updatedItem) => {
+const updateItem = (updatedItem, responseHandler) => {
   let itemUpdated = false;
   // update item if present and update itemUpdated
   const updatedItems = itemsDataSource.items.map((currentItem) => {
@@ -28,12 +34,12 @@ const updateItem = (updatedItem) => {
   // else return error message
   if (itemUpdated) {
     // update items if itemUpdated not null (item was found)
-    updateItems(updatedItems);
-    return { itemUpdated };
+    _updateItems(updatedItems);
+    responseHandler({ item: itemUpdated });
   } else {
-    return {
+    responseHandler({
       error: `Could not find an item with the provided id ${updatedItem.id}`,
-    };
+    });
   }
 };
 
@@ -42,7 +48,7 @@ const updateItem = (updatedItem) => {
  * @param {string} itemId id of item to be deleted
  * @returns item object if item found and deleted, else object containing error
  */
-const deleteItem = (itemId) => {
+const deleteItem = (itemId, responseHandler) => {
   let itemDeleted;
   // delete item if present and update itemDeleted
   const filteredItems = itemsDataSource.items.filter((currentItem) => {
@@ -54,48 +60,19 @@ const deleteItem = (itemId) => {
   });
   // update items if itemDeleted not null (item was found)
   if (itemDeleted) {
-    updateItems(filteredItems);
+    _updateItems(filteredItems);
     // itemDeleted contains the item deleted if found
-    return { itemDeleted };
+    responseHandler({ item: itemDeleted });
   } else {
-    return {
+    responseHandler({
       error: `Could not find an item with the provided id ${itemId}`,
-    };
-  }
-};
-
-const ITEMS_ACTION_METHOD = {
-  GET_ALL_ITEMS: getAllItems,
-  ADD_ITEM: addItem,
-  GET_ITEM_BY_ID: getItemById,
-  UPDATE_ITEM: updateItem,
-  DELETE_ITEM: deleteItem,
-};
-
-export const ITEMS_ACTIONS = {
-  GET_ALL_ITEMS: "GET_ALL_ITEMS",
-  ADD_ITEM: "ADD_ITEM",
-  GET_ITEM_BY_ID: "GET_ITEM_BY_ID",
-  UPDATE_ITEM: "UPDATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
-};
-
-const dispatch = (type, payload) => {
-  // check if type is a valid items action
-  if (!Object.keys(ITEMS_ACTIONS).includes(type))
-    return {
-      error: `invalid action type supplied to itemsActionHandler: ${type}`,
-    };
-  // attempt to execute the operation
-  try {
-    return payload
-      ? ITEMS_ACTION_METHOD[type](payload)
-      : ITEMS_ACTION_METHOD[type]();
-  } catch (error) {
-    throw error;
+    });
   }
 };
 
 export default {
-  dispatch,
+  getItemById,
+  addItem,
+  updateItem,
+  deleteItem,
 };
