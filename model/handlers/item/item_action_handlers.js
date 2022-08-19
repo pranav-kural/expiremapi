@@ -1,7 +1,4 @@
-// import app's data source
-import AppDataSource from "../../data/app_data_source.js";
-// get items data source from the app's data source
-const itemsDataSource = AppDataSource.getItemsDataSource();
+import { itemsDataSource } from "../../data/items_data.js";
 
 const _updateItems = (items) => (itemsDataSource.items = [...items]);
 
