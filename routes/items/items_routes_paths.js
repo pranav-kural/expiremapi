@@ -1,4 +1,4 @@
-export const itemsRoutesPath = {
+export default {
   "/": {
     description: "",
     requires: "",

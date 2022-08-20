@@ -1,7 +1,8 @@
-import itemsController from "../../controllers/items/items_controller.js";
 import ItemsRouteOptions from "./items_routes_options.js";
-import { itemsRoutesPath } from "./items_routes_paths.js";
-import { itemRoutes } from "./item/item_routes.js";
+import itemsRoutesPath from "./items_routes_paths.js";
+import itemRoutes from "./item/item_routes.js";
+import dispatch from "../../dispatchers/app_dispatcher.js";
+import { ITEMS_ACTION_TYPES } from "../../dispatchers/items/items_action_types.js";
 
 export async function itemsRoutes(fastify, options, done) {
   // return available /items endpoints
@@ -16,5 +17,7 @@ export async function itemsRoutes(fastify, options, done) {
 const itemsEndpointsHandler = (_, res) =>
   res.send(JSON.stringify(itemsRoutesPath));
 
-const getAllItemsHandler = (req, res) =>
-  itemsController.getAllItems((items) => res.send(items));
+const getAllItemsHandler = (_, res) =>
+  dispatch(ITEMS_ACTION_TYPES.REQUEST_GET_ALL_ITEMS, null, (items) =>
+    res.send(items)
+  );

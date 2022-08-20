@@ -1,12 +1,13 @@
 import itemRouteOptions from "./item_routes_options.js";
-import itemController from "../../../controllers/items/item_controller.js";
+import { ITEM_ACTION_TYPES } from "../../../dispatchers/item/item_action_types.js";
+import dispatch from "../../../dispatchers/app_dispatcher.js";
 /**
  * /items/item Routes
  * endpoints:
  *  - /item/:id - GET, DELETE
  *  - /item     - POST, PUT
  */
-export const itemRoutes = async (fastify, options, done) => {
+const itemRoutes = async (fastify, options, done) => {
   // get an item by id
   fastify.get("/item/:id", itemRouteOptions.getItemOptions, getItemByIdHandler);
   // add a new item
@@ -35,7 +36,11 @@ export const itemRoutes = async (fastify, options, done) => {
           });
         }
       };
-      itemController.getItemById(req.params.id, responseHandler);
+      dispatch(
+        ITEM_ACTION_TYPES.REQUEST_GET_ITEM_BY_ID,
+        req.params.id,
+        responseHandler
+      );
     } catch (error) {
       res.send(error);
     }
@@ -67,7 +72,11 @@ export const itemRoutes = async (fastify, options, done) => {
           });
         }
       };
-      itemController.addItem(req.body.item, responseHandler);
+      dispatch(
+        ITEM_ACTION_TYPES.REQUEST_ADD_ITEM,
+        req.body.item,
+        responseHandler
+      );
     } catch (error) {
       res.send(error);
     }
@@ -85,7 +94,11 @@ export const itemRoutes = async (fastify, options, done) => {
           res.send({ error });
         }
       };
-      itemController.updateItem(req.body.item, responseHandler);
+      dispatch(
+        ITEM_ACTION_TYPES.REQUEST_UPDATE_ITEM,
+        req.body.item,
+        responseHandler
+      );
     } catch (error) {
       res.send(error);
     }
@@ -103,9 +116,15 @@ export const itemRoutes = async (fastify, options, done) => {
           res.send({ error });
         }
       };
-      itemController.deleteItem(req.params.id, responseHandler);
+      dispatch(
+        ITEM_ACTION_TYPES.REQUEST_DELETE_ITEM,
+        req.params.id,
+        responseHandler
+      );
     } catch (error) {
       res.send(error);
     }
   }
 };
+
+export default itemRoutes;
