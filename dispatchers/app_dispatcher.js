@@ -1,5 +1,7 @@
-import { ITEMS_ACTION_TYPES, ITEMS_HANDLERS } from "./items/items_actions.js";
-import { ITEM_ACTION_TYPES, ITEM_HANDLERS } from "./items/item_actions.js";
+import ITEM_HANDLERS from "./item/item_action_handlers.js";
+import ITEMS_HANDLERS from "./items/items_actions_handlers.js";
+import { ITEM_ACTION_TYPES } from "./item/item_action_types.js";
+import { ITEMS_ACTION_TYPES } from "./items/items_action_types.js";
 
 const ACTION_HANDLERS = {
   ...ITEM_HANDLERS,
@@ -18,8 +20,7 @@ const dispatch = (actionType, payload, next) => {
   // attempt to execute the operation
   try {
     let params = [...(payload ? [payload] : []), ...(next ? [next] : [])];
-    console.log("****** params: ", [...params]);
-    console.log(actionType);
+    console.log(`###### dispatching action: ${actionType} ######`);
     // dispatch the action
     ACTION_HANDLERS[actionType](...params);
   } catch (error) {
