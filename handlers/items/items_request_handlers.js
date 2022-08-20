@@ -1,12 +1,8 @@
 import dispatch from "../../dispatchers/app_dispatcher.js";
-import { ITEMS_ACTION_TYPES } from "../../dispatchers/items/items_actions.js";
+import { ITEMS_ACTION_TYPES } from "../../dispatchers/items/items_action_types.js";
 
 const getAllItems = (responseHandler) =>
-  dispatch(ITEMS_ACTION_TYPES.REQUEST_GET_ALL_ITEMS, null, responseHandler);
-// {
-//   // console.log("&&&&&&&&& items controller");
-
-// };
+  dispatch(ITEMS_ACTION_TYPES.DATA_GET_ALL_ITEMS, null, responseHandler);
 
 /**
  * Adds an item to user's items collection
@@ -15,7 +11,7 @@ const getAllItems = (responseHandler) =>
  * @returns object containing item object if added successfully, else error
  */
 const addItems = (items, responseHandler) =>
-  dispatch(ITEMS_ACTION_TYPES.REQUEST_ADD_ITEMS, items, responseHandler);
+  dispatch(ITEMS_ACTION_TYPES.DATA_ADD_ITEMS, items, responseHandler);
 
 /**
  * Updates an item that belongs to the user
@@ -24,11 +20,7 @@ const addItems = (items, responseHandler) =>
  * @returns updated item object if successful, else error
  */
 const updateItems = (updatedItems, responseHandler) =>
-  dispatch(
-    ITEMS_ACTION_TYPES.REQUEST_UPDATE_ITEMS,
-    updatedItems,
-    responseHandler
-  );
+  dispatch(ITEMS_ACTION_TYPES.DATA_UPDATE_ITEMS, updatedItems, responseHandler);
 
 /**
  * Deletes an item that belongs to the user
@@ -37,7 +29,7 @@ const updateItems = (updatedItems, responseHandler) =>
  * @returns the item object if deletion successful, else error
  */
 const deleteItems = (itemIds, responseHandler) =>
-  dispatch(ITEMS_ACTION_TYPES.REQUEST_DELETE_ITEMS, itemIds, responseHandler);
+  dispatch(ITEMS_ACTION_TYPES.DATA_DELETE_ITEMS, itemIds, responseHandler);
 
 export default {
   getAllItems,

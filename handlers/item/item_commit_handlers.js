@@ -1,4 +1,4 @@
-import { itemsDataSource } from "../../data/items_data.js";
+import { itemsDataSource } from "../../model/data/items_data.js";
 
 const _updateItems = (items) => (itemsDataSource.items = [...items]);
 

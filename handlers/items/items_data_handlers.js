@@ -1,13 +1,13 @@
-import dispatch from "../../../dispatchers/app_dispatcher.js";
-import { ITEMS_ACTION_TYPES } from "../../../dispatchers/items/items_actions.js";
+import dispatch from "../../dispatchers/app_dispatcher.js";
+import { ITEMS_ACTION_TYPES } from "../../dispatchers/items/items_action_types.js";
 
 const getAllItems = (responseHandler) => {
   console.log("####### getAll running");
-  dispatch(ITEMS_ACTION_TYPES.GET_ALL_ITEMS, null, responseHandler);
+  dispatch(ITEMS_ACTION_TYPES.COMMIT_GET_ALL_ITEMS, null, responseHandler);
 };
 
 const addItems = (items, responseHandler) =>
-  dispatch(ITEMS_ACTION_TYPES.ADD_ITEMS, items, responseHandler);
+  dispatch(ITEMS_ACTION_TYPES.COMMIT_ADD_ITEMS, items, responseHandler);
 
 /**
  * Updates an item. Updates only the properties provided.
@@ -17,7 +17,11 @@ const addItems = (items, responseHandler) =>
  * @returns item object with all its properties if item was found and updated, else object containing 'error'
  */
 const updateItems = (updatedItems, responseHandler) =>
-  dispatch(ITEMS_ACTION_TYPES.UPDATE_ITEMS, updatedItems, responseHandler);
+  dispatch(
+    ITEMS_ACTION_TYPES.COMMIT_UPDATE_ITEMS,
+    updatedItems,
+    responseHandler
+  );
 
 /**
  * Deletes an item matching the provided id
@@ -25,7 +29,7 @@ const updateItems = (updatedItems, responseHandler) =>
  * @returns item object if item found and deleted, else boolean false
  */
 const deleteItems = (itemIds, responseHandler) =>
-  dispatch(ITEMS_ACTION_TYPES.DELETE_ITEMS, itemIds, responseHandler);
+  dispatch(ITEMS_ACTION_TYPES.COMMIT_DELETE_ITEMS, itemIds, responseHandler);
 
 export default {
   getAllItems,

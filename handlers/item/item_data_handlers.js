@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import dispatch from "../../../dispatchers/app_dispatcher.js";
-import { ITEM_ACTION_TYPES } from "../../../dispatchers/items/item_actions.js";
+import dispatch from "../../dispatchers/app_dispatcher.js";
+import { ITEM_ACTION_TYPES } from "../../dispatchers/item/item_action_types.js";
 import itemValidationHandlers from "./item_validation_handlers.js";
 
 const getItemById = (id, responseHandler) => {
@@ -8,7 +8,7 @@ const getItemById = (id, responseHandler) => {
   const { validationSuccess, validationErrors } =
     itemValidationHandlers.validateItemId(id);
   if (validationSuccess)
-    dispatch(ITEM_ACTION_TYPES.GET_ITEM_BY_ID, id, responseHandler);
+    dispatch(ITEM_ACTION_TYPES.COMMIT_GET_ITEM_BY_ID, id, responseHandler);
   else responseHandler({ error: validationErrors });
 };
 
@@ -24,7 +24,7 @@ const addItem = (item, responseHandler) => {
     // add id property to item object
     item = { id: itemId, ...item };
     // add new item
-    dispatch(ITEM_ACTION_TYPES.ADD_ITEM, item, responseHandler);
+    dispatch(ITEM_ACTION_TYPES.COMMIT_ADD_ITEM, item, responseHandler);
   } else {
     responseHandler({
       error: `validation failed for addItem: ${validationErrors}`,
@@ -47,7 +47,11 @@ const updateItem = (updatedItem, responseHandler) => {
     });
   // if validation successful, dispatch update item action, else return error
   validationSuccess
-    ? dispatch(ITEM_ACTION_TYPES.UPDATE_ITEM, updatedItem, responseHandler)
+    ? dispatch(
+        ITEM_ACTION_TYPES.COMMIT_UPDATE_ITEM,
+        updatedItem,
+        responseHandler
+      )
     : responseHandler({
         error: `validation failed for the provided item object: ${validationErrors}`,
       });
@@ -63,7 +67,7 @@ const deleteItem = (itemId, responseHandler) => {
   const { validationSuccess, validationErrors } =
     itemValidationHandlers.validateItemId(itemId);
   return validationSuccess
-    ? dispatch(ITEM_ACTION_TYPES.DELETE_ITEM, itemId, responseHandler)
+    ? dispatch(ITEM_ACTION_TYPES.COMMIT_DELETE_ITEM, itemId, responseHandler)
     : responseHandler({
         error: `validation failed for the provided item id: ${validationErrors}`,
       });
