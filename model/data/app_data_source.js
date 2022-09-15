@@ -1,9 +1,8 @@
 import { sampleItems } from "./sample_items.js";
 
-class AppDataSource {
-  getItemsDataSource = () => ({
+const AppDataSource = {
+  getItemsDataSource: () => ({
     items: sampleItems,
-  });
-}
-
-export default new AppDataSource();
+  }),
+};
+export default AppDataSource;

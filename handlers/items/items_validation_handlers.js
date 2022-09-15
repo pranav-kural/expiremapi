@@ -1,5 +1,5 @@
-import AppDataSchemas from "../data/schemas/app_data_schemas.js";
-import ajvSchemaValidator from "../data/validators/ajv_schema_validator.js";
+import AppDataSchemas from "../../model/data/schemas/app_data_schemas.js";
+import ajvSchemaValidator from "../../model/data/validators/ajv_schema_validator.js";
 
 const validateObj = (obj, schema) => {
   const validateItem = ajvSchemaValidator.compile(schema);
@@ -28,7 +28,11 @@ const validateItemId = (id) =>
     format: "uuid",
   });
 
+const validateItemsObject = (
+  items,
+  { propertiesRequired, propertiesToExclude }
+) => {};
+
 export default {
-  validateItemObject,
-  validateItemId,
+  validateItemsObject,
 };

@@ -1,12 +1,13 @@
 import itemRouteOptions from "./item_routes_options.js";
-import { itemController } from "../../../controllers/items/items_controller.js";
+import { ITEM_ACTION_TYPES } from "../../../dispatchers/item/item_action_types.js";
+import dispatch from "../../../dispatchers/app_dispatcher.js";
 /**
  * /items/item Routes
  * endpoints:
  *  - /item/:id - GET, DELETE
  *  - /item     - POST, PUT
  */
-export const itemRoutes = async (fastify, options, done) => {
+const itemRoutes = async (fastify, options, done) => {
   // get an item by id
   fastify.get("/item/:id", itemRouteOptions.getItemOptions, getItemByIdHandler);
   // add a new item
@@ -25,13 +26,23 @@ export const itemRoutes = async (fastify, options, done) => {
   );
 
   async function getItemByIdHandler(req, res) {
-    const item = itemController.getItemById(req.params.id);
-    if (item) res.send({ item });
-    else {
-      res.statusCode = 404;
-      res.send({
-        error: `no item found matching the provided id ${req.params.id}`,
-      });
+    try {
+      const responseHandler = ({ item, error }) => {
+        if (item) res.send({ item });
+        else {
+          res.statusCode = 404;
+          res.send({
+            error,
+          });
+        }
+      };
+      dispatch(
+        ITEM_ACTION_TYPES.REQUEST_GET_ITEM_BY_ID,
+        req.params.id,
+        responseHandler
+      );
+    } catch (error) {
+      res.send(error);
     }
   }
 
@@ -44,51 +55,50 @@ export const itemRoutes = async (fastify, options, done) => {
    * @param {*} res response method
    */
   async function addItemHandler(req, res) {
-    /* 
-     tries to add an item, if fails in adding item due to validation etc.
-     returns an object containing error property
-     if fails to add object due something else (exception during execution)
-     returns object containing error property
-     NOTE: not using try-catch or exception handling for handling errors during
-     normal flow of application logic (hence some redundant code) 
-    */
     try {
-      const { itemAdded, error } = itemController.addItem(req.body.item);
-      if (!error) {
-        res.send({
-          itemAddedSuccessfully: true,
-          status: "item added successfully",
-          item: itemAdded,
-        });
-      } else {
-        res.statusCode = 400;
-        res.send({
-          itemAddedSuccessfully: false,
-          status: "failed to add item",
-          error,
-        });
-      }
-    } catch (err) {
-      res.statusCode = 500;
-      res.send({
-        itemAddedSuccessfully: false,
-        status: "failed to add item",
-        error: err.message,
-      });
+      const responseHandler = ({ item, error }) => {
+        if (!error) {
+          res.send({
+            itemAddedSuccessfully: true,
+            status: "item added successfully",
+            item,
+          });
+        } else {
+          res.statusCode = 400;
+          res.send({
+            itemAddedSuccessfully: false,
+            status: "failed to add item",
+            error,
+          });
+        }
+      };
+      dispatch(
+        ITEM_ACTION_TYPES.REQUEST_ADD_ITEM,
+        req.body.item,
+        responseHandler
+      );
+    } catch (error) {
+      res.send(error);
     }
   }
 
   async function updateItemHandler(req, res) {
     try {
-      const { itemUpdated, error } = itemController.updateItem(req.body.item);
-      if (!error) {
-        res.send({
-          item: itemUpdated,
-        });
-      } else {
-        res.statusCode = 400;
-        res.send({ error });
-      }
+      const responseHandler = ({ item, error }) => {
+        if (!error) {
+          res.send({
+            item,
+          });
+        } else {
+          res.statusCode = 400;
+          res.send({ error });
+        }
+      };
+      dispatch(
+        ITEM_ACTION_TYPES.REQUEST_UPDATE_ITEM,
+        req.body.item,
+        responseHandler
+      );
     } catch (error) {
       res.send(error);
     }
@@ -96,17 +106,25 @@ export const itemRoutes = async (fastify, options, done) => {
 
   async function deleteItemHandler(req, res) {
     try {
-      const { itemDeleted, error } = itemController.deleteItem(req.params.id);
-      if (!error) {
-        res.send({
-          item: itemDeleted,
-        });
-      } else {
-        res.statusCode = 400;
-        res.send({ error });
-      }
+      const responseHandler = ({ item, error }) => {
+        if (!error) {
+          res.send({
+            item,
+          });
+        } else {
+          res.statusCode = 400;
+          res.send({ error });
+        }
+      };
+      dispatch(
+        ITEM_ACTION_TYPES.REQUEST_DELETE_ITEM,
+        req.params.id,
+        responseHandler
+      );
     } catch (error) {
       res.send(error);
     }
   }
 };
+
+export default itemRoutes;
