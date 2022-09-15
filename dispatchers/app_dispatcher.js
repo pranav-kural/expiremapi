@@ -20,7 +20,11 @@ const dispatch = (actionType, payload, next) => {
   // attempt to execute the operation
   try {
     let params = [...(payload ? [payload] : []), ...(next ? [next] : [])];
-    console.log(`###### dispatching action: ${actionType} ######`);
+
+    console.log(
+      `%c###### dispatching action: ${actionType} ######`,
+      "color:blue; font-size:50px"
+    );
     // dispatch the action
     ACTION_HANDLERS[actionType](...params);
   } catch (error) {
