@@ -3,6 +3,11 @@ import { itemsDataSource } from "../../model/data/items_data.js";
 const getAllItems = (responseHandler) => responseHandler(itemsDataSource.items);
 
 const addItems = (items, responseHandler) => {
+  items.forEach((item) => itemsDataSource.items.push(item));
+  responseHandler({ items }); // if successful, return the item (containing id)
+};
+
+const updateItems = (updatedItems, responseHandler) => {
   let itemsUpdated;
   // update item if present and update itemUpdated
   const updatedItems = itemsDataSource.items.map((currentItem) => {
@@ -38,9 +43,6 @@ const addItems = (items, responseHandler) => {
     });
   }
 };
-
-const updateItems = (updatedItems, responseHandler) =>
-  responseHandler([...itemsDataSource.items, ...updatedItems]);
 
 const _setNewItems = (newItems) => (itemsDataSource.items = newItems);
 
