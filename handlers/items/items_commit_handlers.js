@@ -7,7 +7,7 @@ const addItems = (items, responseHandler) => {
   responseHandler({ items }); // if successful, return the item (containing id)
 };
 
-const updateItems = (updatedItems, responseHandler) => {
+const updateItems = (items, responseHandler) => {
   let itemsUpdated;
   // update item if present and update itemUpdated
   const updatedItems = itemsDataSource.items.map((currentItem) => {

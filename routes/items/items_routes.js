@@ -9,6 +9,8 @@ export async function itemsRoutes(fastify, options, done) {
   fastify.get("/", itemsEndpointsHandler);
   // return all items (belonging to current user)
   fastify.get("/all", ItemsRouteOptions.getAllItemsOptions, getAllItemsHandler);
+  // add multiple items
+  fastify.post("/add", addMultipleItemsHandler);
 
   // handling request to /items/item/
   fastify.register(itemRoutes);
@@ -19,5 +21,10 @@ const itemsEndpointsHandler = (_, res) =>
 
 const getAllItemsHandler = (_, res) =>
   dispatch(ITEMS_ACTION_TYPES.REQUEST_GET_ALL_ITEMS, null, (items) =>
+    res.send(items)
+  );
+
+const addMultipleItemsHandler = (req, res) =>
+  dispatch(ITEMS_ACTION_TYPES.REQUEST_ADD_ITEMS, req.body.items, (items) =>
     res.send(items)
   );
