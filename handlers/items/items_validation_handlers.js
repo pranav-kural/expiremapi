@@ -28,11 +28,34 @@ const validateItemId = (id) =>
     format: "uuid",
   });
 
+const validateItemIds = (itemIds) =>
+  validateObj(itemIds, {
+    type: "array",
+    children: {
+      type: "string",
+      format: "uuid",
+    },
+  });
+
 const validateItemsObject = (
   items,
   { propertiesRequired, propertiesToExclude }
-) => {};
+) => {
+  validateObj(items, {
+    ...AppDataSchemas.getItemsArraySchema(),
+    children: {
+      ...AppDataSchemas.getItemObjectSchema(),
+      ...(propertiesRequired && { required: propertiesRequired }),
+      ...(propertiesToExclude && {
+        not: {
+          required: propertiesToExclude,
+        },
+      }),
+    },
+  });
+};
 
 export default {
   validateItemsObject,
+  validateItemIds,
 };

@@ -6,6 +6,14 @@ class AppDataSchemas {
     type: "object",
     ...getSchemaProperties(itemObjectProperties),
   });
+
+  getItemsArraySchema = () => ({
+    type: "array",
+    children: {
+      type: "object",
+      ...getSchemaProperties(itemObjectProperties),
+    },
+  });
 }
 
 export default new AppDataSchemas();
