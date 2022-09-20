@@ -10,7 +10,23 @@ export async function itemsRoutes(fastify, options, done) {
   // return all items (belonging to current user)
   fastify.get("/all", ItemsRouteOptions.getAllItemsOptions, getAllItemsHandler);
   // add multiple items
-  fastify.post("/add", addMultipleItemsHandler);
+  fastify.post(
+    "/add",
+    ItemsRouteOptions.getAddItemsOptions,
+    addMultipleItemsHandler
+  );
+  // update multiple items
+  fastify.put(
+    "/update",
+    ItemsRouteOptions.getUpdateItemsOptions,
+    updateMultipleItemsHandler
+  );
+  // delete multiple items
+  fastify.delete(
+    "/delete",
+    ItemsRouteOptions.getDeleteItemsOptions,
+    deleteMultipleItemsHandler
+  );
 
   // handling request to /items/item/
   fastify.register(itemRoutes);
@@ -26,5 +42,15 @@ const getAllItemsHandler = (_, res) =>
 
 const addMultipleItemsHandler = (req, res) =>
   dispatch(ITEMS_ACTION_TYPES.REQUEST_ADD_ITEMS, req.body.items, (items) =>
+    res.send(items)
+  );
+
+const updateMultipleItemsHandler = (req, res) =>
+  dispatch(ITEMS_ACTION_TYPES.REQUEST_UPDATE_ITEMS, req.body.items, (items) =>
+    res.send(items)
+  );
+
+const deleteMultipleItemsHandler = (req, res) =>
+  dispatch(ITEMS_ACTION_TYPES.REQUEST_DELETE_ITEMS, req.body.items, (items) =>
     res.send(items)
   );

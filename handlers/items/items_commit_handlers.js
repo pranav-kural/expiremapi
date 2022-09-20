@@ -4,7 +4,7 @@ const getAllItems = (responseHandler) => responseHandler(itemsDataSource.items);
 
 const addItems = (items, responseHandler) => {
   items.forEach((item) => itemsDataSource.items.push(item));
-  responseHandler({ items }); // if successful, return the item (containing id)
+  responseHandler({ items, status: "items added successfully" }); // if successful, return the item (containing id)
 };
 
 const updateItems = (items, responseHandler) => {

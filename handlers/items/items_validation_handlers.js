@@ -31,7 +31,7 @@ const validateItemId = (id) =>
 const validateItemIds = (itemIds) =>
   validateObj(itemIds, {
     type: "array",
-    children: {
+    items: {
       type: "string",
       format: "uuid",
     },
@@ -40,10 +40,10 @@ const validateItemIds = (itemIds) =>
 const validateItemsObject = (
   items,
   { propertiesRequired, propertiesToExclude }
-) => {
+) =>
   validateObj(items, {
-    ...AppDataSchemas.getItemsArraySchema(),
-    children: {
+    type: "array",
+    items: {
       ...AppDataSchemas.getItemObjectSchema(),
       ...(propertiesRequired && { required: propertiesRequired }),
       ...(propertiesToExclude && {
@@ -53,7 +53,6 @@ const validateItemsObject = (
       }),
     },
   });
-};
 
 export default {
   validateItemsObject,

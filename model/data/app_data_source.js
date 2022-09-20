@@ -1,8 +1,8 @@
-import { sampleItems } from "./sample_items.js";
+import db from "./sample_db.js";
 
 const AppDataSource = {
   getItemsDataSource: () => ({
-    items: sampleItems,
+    items: db.items,
   }),
 };
 export default AppDataSource;

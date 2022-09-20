@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import dispatch from "../../dispatchers/app_dispatcher.js";
 import { ITEMS_ACTION_TYPES } from "../../dispatchers/items/items_action_types.js";
 import itemsValidationHandlers from "./items_validation_handlers.js";
@@ -10,6 +11,7 @@ const addItems = (items, responseHandler) => {
   // items object containing item objects without id field
   const { validationSuccess, validationErrors } =
     itemsValidationHandlers.validateItemsObject(items, {
+      propertiesRequired: ["name"],
       propertiesToExclude: ["id"],
     });
   if (validationSuccess) {
