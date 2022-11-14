@@ -1,6 +1,6 @@
 # Dispatch-Action-Handler Pattern
 
-A code-execution and application state-management pattern inspired from the way reducers are implemented in Redux.
+A code-execution and application state-management pattern inspired from the way reducers are implemented in Redux. Three main benefits: achieve a high level of loose coupling, more efficient development while enhancing code management, and finally, enables easier implementation of a code monitoring & logging system within the application (ex: API endpoints call log)
 
 ## Table of contents
 
